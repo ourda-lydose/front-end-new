@@ -55,6 +55,7 @@ export default function EditItem({params,}: { params: { itemId: string }; }){
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            disabled
                         />
                     </div>
                     <div className="mb-4">
