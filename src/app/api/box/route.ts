@@ -47,16 +47,6 @@ export const updateSubscriptionBox = async (id: string, box: {
     }
 };
 
-// export const updateItem = async (id: string, item: Item): Promise<Item> => {
-//     try {
-//         const response = await axios.put<Item>(`${API_URL}/${id}`, item);
-//         return response.data;
-//     } catch (error) {
-//         console.error(`Error updating item with ID ${id}:`, error);
-//         throw error;
-//     }
-// };
-
 export const deleteSubscriptionBox = async (id: string): Promise<void> => {
     try {
         await axios.delete(`${API_URL}/${id}`);
