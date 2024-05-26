@@ -93,7 +93,7 @@ export default function SubscriptionPage() {
                                 </button>
                                 <button
                                     className='text-[18px] gap-2 mt-3 border-[2px] rounded-xl border-adpro-700 text-adpro-700 px-9 py-[10px] hover:text-adpro-000 hover:bg-adpro-600 hover:border-adpro-600 ease-in-out duration-200'
-                                    onClick={() => {}}>Reviews
+                                    onClick={() => router.push(`/review/box/${box.id}`)}>Reviews
                                 </button>
                             </section>
                         </main>
