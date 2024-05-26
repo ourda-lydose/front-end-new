@@ -1,4 +1,4 @@
-// import LandingPagePNG from '@/images/landing-page-bg.png'
+import LandingPagePNG from '@/images/landing-page-bg.png'
 import Image from 'next/image';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 
@@ -8,9 +8,9 @@ export default function Home() {
 
       <div className="absolute inset-0 blur-sm overflow-hidden">
         <Image
-          src="/images/landing-page-bg.png"
-          alt="landing-page"
-          layout="fill"
+          src={LandingPagePNG}
+          alt={"landing-page"}
+          layout={"fill"}
           className="object-contain transform scale-[1.4] ml-[455px]"
         />
       </div>
@@ -38,9 +38,9 @@ export default function Home() {
         <div className="w-full relative h-[550px] flex items-center justify-center">
             <div className="w-full h-full relative">
               <Image
-                src="/images/landing-page-bg.png"
-                alt="landing-page"
-                layout="fill"
+                src={LandingPagePNG}
+                alt={"landing-page"}
+                layout={"fill"}
                 className="object-contain flex self-center mb-[125px]"
               />
             </div>
