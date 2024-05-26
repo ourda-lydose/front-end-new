@@ -44,7 +44,7 @@ const EditUserProfilePage: React.FC = () => {
             if (!response.ok) {
                 throw new Error("Failed to update UserProfile");
             }
-            router.push('/userprofile');
+            router.push(`/userprofile/${id}`);
         } catch (error) {
             console.error("There was a problem updating the Profile:", error);
         }
