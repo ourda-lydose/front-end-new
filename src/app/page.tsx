@@ -1,3 +1,4 @@
+
 import LandingPagePNG from '@/images/landing-page-bg.png'
 import Image from 'next/image';
 import { HiArrowNarrowRight } from 'react-icons/hi';

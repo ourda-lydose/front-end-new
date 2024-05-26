@@ -1,20 +1,20 @@
-import type { Metadata } from "next";
 import "./globals.css";
 
+import { AuthProvider } from './context/AuthContext';
+import { ReactNode } from 'react';
 
-export const metadata: Metadata = {
-  title: "ourda!lydose",
-  description: "For your daily dose routine",
-};
+interface RootLayoutProps {
+  children: ReactNode;
+}
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
+      </body>
     </html>
   );
 }
