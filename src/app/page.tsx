@@ -11,7 +11,7 @@ export default function Home() {
           src={LandingPagePNG}
           alt={"landing-page"}
           layout={"fill"}
-          className="object-contain transform scale-[1.4] ml-[420px]"
+          className="object-contain transform scale-[1.4] ml-[455px]"
         />
       </div>
 
