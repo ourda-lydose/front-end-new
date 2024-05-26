@@ -10,11 +10,12 @@ const Subscriptions = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState('');
   const [sortOrder, setSortOrder] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState('');
 
   useEffect(() => {
     const fetchSubscriptions = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/subscription/subscriptions');
+        const response = await axios.get('http://localhost:8080/api/subscription');
         setSubscriptions(response.data);
       } catch (error) {
         console.error('Error fetching subscriptions:', error);
@@ -23,7 +24,7 @@ const Subscriptions = () => {
 
     const fetchHistory = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/subscription/history');
+        const response = await axios.get('http://localhost:8080/api/subscription/subscription-history');
         setHistory(response.data);
       } catch (error) {
         console.error('Error fetching history:', error);
@@ -35,20 +36,47 @@ const Subscriptions = () => {
   }, []);
 
   const handleSearch = async () => {
-    //TODO: add search logic here
     console.log('Searching for:', searchTerm);
   };
+  
 
   const handleFilter = async () => {
-    //TODO: add filter logic here
-    console.log('Filtering by:', filter);
+    try {
+      const response = await axios.get(`http://localhost:8080/api/subscription/subscriptions/{status}`);
+      setSubscriptions(response.data);
+    } catch (error) {
+      console.error('Error filtering subscriptions:', error);
+    }
   };
 
-  const handleSort = async (e: any) => {
-    const selectedSort = e.target.value;
-    setSortOrder(selectedSort);
-    //TODO: add sort logic here
-    console.log('Sorting by:', selectedSort);
+  const handleStatusChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const status = e.target.value;
+    setSelectedStatus(status);
+    try {
+      if (status) {
+        const response = await axios.get(`http://localhost:8080/api/subscription/subscriptions/${status}`);
+        setSubscriptions(response.data);
+      } else {
+        const response = await axios.get('http://localhost:8080/api/subscription');
+        setSubscriptions(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching subscriptions by status:', error);
+    }
+  };
+  
+
+  const getStatusStyles = (status: string) => {
+    switch (status) {
+      case 'SUBSCRIBED':
+        return 'bg-green-100 text-green-900';
+      case 'PENDING':
+        return 'bg-yellow-100 text-yellow-900';
+      case 'CANCELLED':
+        return 'bg-red-100 text-red-900';
+      default:
+        return '';
+    }
   };
 
   return (
@@ -97,26 +125,39 @@ const Subscriptions = () => {
         <div>
           <h2 className="text-3xl font-cormorant text-adpro-900 mb-4">Subscription History</h2>
           <div className="mb-4">
-            <label className="font-medium text-adpro-900 mr-2">Sort by:</label>
+            <label className="font-medium text-adpro-900 mr-2">Filter by status:</label>
             <select 
-              value={sortOrder} 
-              onChange={handleSort} 
+              value={selectedStatus} 
+              onChange={handleStatusChange} 
               className="p-2 border border-gray-400 rounded-lg"
             >
-              <option value="">Select</option>
-              <option value="date">Date</option>
-              <option value="type">Type</option>
+              <option value="">All</option>
+              <option value="SUBSCRIBED">Subscribed</option>
+              <option value="PENDING">Pending</option>
+              <option value="CANCELLED">Cancelled</option>
             </select>
           </div>
-          <div className="flex flex-wrap gap-4">
-            {history.map((record: any) => (
+          <div className="grid grid-cols-1 gap-4">
+            {subscriptions.map((subscription: any) => (
               <div 
-                key={record.id} 
-                className="w-full md:w-1/2 lg:w-1/3 p-4 bg-white rounded-lg shadow-lg flex flex-col gap-3 text-lg"
+                key={subscription.id} 
+                className="relative p-6 bg-white rounded-lg shadow-lg flex flex-col gap-3 text-lg"
               >
-                <span className="font-medium text-adpro-900">ID:</span> {record.code}
-                <span className="font-medium text-adpro-900">Type:</span> {record.type}
-                <span className="font-medium text-adpro-900">Date:</span> {record.date}
+                <div>
+                  <span className="font-medium text-adpro-900">ID:</span> {subscription.code}
+                </div>
+                <div>
+                  <span className="font-medium text-adpro-900">Type:</span> {subscription.type}
+                </div>
+                <div>
+                  <span className="font-medium text-adpro-900">Start Date:</span> {subscription.startDate}
+                </div>
+                <div>
+                  <span className="font-medium text-adpro-900">End Date:</span> {subscription.endDate}
+                </div>
+                <div className={`absolute bottom-4 right-4 p-2 rounded-lg ${getStatusStyles(subscription.statusString)}`}>
+                  {subscription.statusString}
+                </div>
               </div>
             ))}
           </div>
